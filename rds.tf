@@ -1,6 +1,6 @@
 resource "aws_db_instance" "wordpress" {
   allocated_storage    = 10
-  identifier           = var.rds_db_identifier
+  identifier           = "wordpress-${data.aws_caller_identity.current.account_id}-${random_string.short.result}"
   storage_type         = "gp2"
   engine               = "mariadb"
   engine_version       = "10.2"
@@ -18,4 +18,3 @@ resource "aws_db_instance" "wordpress" {
 
   tags = var.tags
 }
-

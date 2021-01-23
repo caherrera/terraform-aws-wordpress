@@ -16,14 +16,14 @@ resource "aws_route53_record" "wordpress" {
 }
 
 resource "aws_key_pair" "wordpress" {
-  key_name   = var.ec2_key_name
+  key_name   = "wordpress"
   public_key = var.ec2_public_key
 }
 
 #--------------------------------------------------------
 ### EC2
 resource "aws_instance" "wordpress" {
-  ami                  = var.ami_images[var.region]
+  ami                  = data.aws_ami.wordpress.id
   key_name             = aws_key_pair.wordpress.key_name
   instance_type        = var.ec2_instance_type
   subnet_id            = data.aws_subnet.wordpress.id

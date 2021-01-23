@@ -52,16 +52,6 @@ variable "elb_ssl_cert" {
   default     = ""
 }
 
-variable "s3_bucket_name" {
-  description = "(Optional, Forces new resource) The name of the bucket to host Wordpress objects. If omitted, Terraform will assign a random, unique name."
-  default     = ""
-}
-
-variable "s3_elblogs_bucket_name" {
-  description = "(Optional, Forces new resource) The name of the bucket to host ELB logs. If omitted, Terraform will assign a random, unique name."
-  default     = ""
-}
-
 #--------------------------------------------------------
 ### Compute
 
@@ -79,23 +69,6 @@ variable "ec2_instance_type" {
   description = "The type of instance to start. Updates to this field will trigger a stop/start of the EC2 instance."
   type        = string
   default     = "t2.micro"
-}
-
-variable "ami_images" {
-  description = "The Bitnami WordPress AMI used for EC2 VM."
-  type        = map(string)
-
-  default = {
-    us-east-1 = "ami-016998b436031d351"
-    us-east-2 = ""
-  }
-}
-
-# Currently TF doesn't support creation of key pair, need to create manually.
-# https://www.terraform.io/docs/providers/aws/r/key_pair.html
-variable "ec2_key_name" {
-  description = "(Required) The key name of the key pair created for the instance."
-  type        = string
 }
 
 #--------------------------------------------------------
@@ -119,18 +92,8 @@ variable "rds_instance_type" {
   default     = "db.t2.micro"
 }
 
-variable "rds_db_identifier" {
-  description = "(Optional, Forces new resource) The name of the RDS instance, if omitted, Terraform will assign a random, unique identifier."
-  type        = string
-  default     = ""
-}
-
-# -------------------------------------------------------
-# db_password variable below should not be provided until feature to change the database user password is implemented
-# else the database backed up to rds will not be available.
 variable "db_password" {
-  description = "DO NOT CHANGE - Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
-  default     = "380cccf909"
+  description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
   type        = string
 }
 

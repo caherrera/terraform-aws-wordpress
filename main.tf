@@ -70,7 +70,7 @@ module "asg" {
   asg_name                  = "wordpress"
   lc_name                   = "wordpresslc"
   instance_type             = "t2.micro"
-  image_id                  = var.ami_images[var.region]
+  image_id                  = data.aws_ami.wordpress.id
   vpc_zone_identifier       = [aws_instance.wordpress.subnet_id]
   health_check_type         = "EC2"
   min_size                  = 1
@@ -104,4 +104,3 @@ module "efs" {
   vpc_id             = data.aws_subnet.wordpress.vpc_id
   zone_id            = aws_route53_record.wordpress.zone_id
 }
-

@@ -1,10 +1,3 @@
-# Data source to get the Account ID of the AWS Elastic Load Balancing Service Account - 
-# in a given region for the purpose of whitelisting in S3 bucket policy.
-data "aws_elb_service_account" "main" {
-}
-
-# --------------------------------------------------------
-
 # WordPress content S3 bucket IAM role, policy and profile
 # Attached to EC2 instances
 resource "aws_iam_instance_profile" "wordpress" {
@@ -32,7 +25,6 @@ resource "aws_iam_role" "wordpress" {
 }
 EOF
 
-
   tags = var.tags
 }
 
@@ -43,7 +35,7 @@ resource "aws_iam_role_policy" "wordpress" {
   policy = <<EOF
 {
 	"Version": "2012-10-17",
-	
+
 	"Statement": [
 	{
 		"Effect": "Allow",
@@ -68,19 +60,23 @@ EOF
 # --------------------------------------------------------
 # S3 Buckets
 
+locals {
+  s3_content = "wordpress-content-${data.aws_caller_identity.current.account_id}-${random_string.short.result}"
+  s3_logs    = "wordpress-elblogs-${data.aws_caller_identity.current.account_id}-${random_string.short.result}"
+}
+
 resource "aws_s3_bucket" "wordpress" {
   acl           = "private"
-  bucket        = var.s3_bucket_name
+  bucket        = local.s3_content
   force_destroy = true
 
   region = var.region
-
-  tags = var.tags
+  tags   = var.tags
 }
 
 resource "aws_s3_bucket" "elb_logs" {
   acl           = "private"
-  bucket        = var.s3_elblogs_bucket_name
+  bucket        = local.s3_logs
   force_destroy = true
 
   policy = <<POLICY
@@ -93,7 +89,7 @@ resource "aws_s3_bucket" "elb_logs" {
         "s3:PutObject"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:s3:::${var.s3_elblogs_bucket_name}/*",
+      "Resource": "arn:aws:s3:::${local.s3_logs}/*",
       "Principal": {
         "AWS": [
            "${data.aws_elb_service_account.main.arn}"
@@ -104,9 +100,6 @@ resource "aws_s3_bucket" "elb_logs" {
 }
 POLICY
 
-
   region = var.region
-
-  tags = var.tags
+  tags   = var.tags
 }
-
