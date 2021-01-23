@@ -1,23 +1,12 @@
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
-[![Release](https://img.shields.io/github/release/pixelicous/terraform-aws-wordpress.svg)](https://github.com/pixelicous/terraform-aws-wordpress/releases)
-[![Build Status](https://travis-ci.org/pixelicous/terraform-aws-wordpress.svg?branch=master)](https://travis-ci.org/pixelicous/terraform-aws-wordpress)
-[![Support me via PayPal](https://img.shields.io/badge/PayPal-Support-orange.svg?style=flat&logo=paypal)](https://www.paypal.me/pixeIabs)
 
-** 
-My repo contains outdated HCL. I stopped development of this package.
-**
 
 # WordPress AWS Best Practice Module
 This repo's root folder contains a wordpress terraform module for deploying a fully redundant and highly available WordPress site.
-As of version 1.0.0 this module creates a new VPC with an internet gateway and a routing table.
+This module creates a new VPC with an internet gateway and a routing table.
 An option to use the default or existing VPC will be added in future version.
 
 > Please check [CHANGELOG](CHANGELOG.md) for future features and/or bug fixes.\
-
-## Support
-If you've find any value from the content I created, some support would be very much appreciated :)
-
-[![Buy me a coffee](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/pixelabs)&nbsp;&nbsp;&nbsp;&nbsp;[![Support me via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://www.paypal.me/pixeIabs/)
 
 ## Usage
 * An example for using this module exists in the [examples](examples/) folder.
@@ -28,7 +17,7 @@ If you've find any value from the content I created, some support would be very 
 An example of using the module in existing code:
 ```hcl
 module "wordpress" {
-  source = "git::https://github.com/pixelicous/terraform-aws-wordpress.git?ref=master"
+  source = "git::https://github.com/heldersepu/terraform-aws-wordpress.git?ref=master"
 
   region = "${var.region}"
   jumpbox_ip = "142.142.142.142"
@@ -44,7 +33,7 @@ module "wordpress" {
 
 ## Architecture
 The architecture is based of AWS' WordPress deployment best practices.
-![AWS Reference Architecture](https://github.com/pixelicous/terraform-aws-wordpress/blob/master/images/aws-refarch-wordpress.jpeg?raw=true)
+![AWS Reference Architecture](https://github.com/heldersepu/terraform-aws-wordpress/blob/master/images/aws-refarch-wordpress.jpeg?raw=true)
 
 
 ## Information about EC2 VM deployment
@@ -80,10 +69,4 @@ export AWS_DEFAULT_REGION="REGION"
 * https://github.com/aws-samples/aws-refarch-wordpress
 * https://d1.awsstatic.com/whitepapers/wordpress-best-practices-on-aws.pdf
 * https://aws-quickstart.s3.amazonaws.com/quickstart-bitnami-wordpress/doc/wordpress-high-availability-by-bitnami-on-the-aws-cloud.pdf
-
-## Authors
-Module managed by [Netzer Rom](https://github.com/pixelicous).
-
-## License
-MIT Licensed. See LICENSE for full details.
 
