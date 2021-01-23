@@ -28,7 +28,7 @@ resource "aws_instance" "wordpress" {
   associate_public_ip_address = true
 
   root_block_device {
-    volume_type           = "standard"
+    volume_type           = "gp2"
     volume_size           = 40
     delete_on_termination = false
   }
