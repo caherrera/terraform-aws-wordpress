@@ -15,4 +15,3 @@ resource "aws_db_subnet_group" "wordpress" {
 
   tags = var.tags
 }
-

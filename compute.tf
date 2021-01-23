@@ -7,7 +7,7 @@ resource "aws_eip" "wordpress" {
 }
 
 resource "aws_route53_record" "wordpress" {
-  zone_id = var.route53_zone_id #EC2 public ip a record, used with EFS' dns 
+  zone_id = var.route53_zone_id #EC2 public ip a record, used with EFS' dns
 
   name    = var.route53_record_name
   type    = "A"
@@ -16,8 +16,7 @@ resource "aws_route53_record" "wordpress" {
 }
 
 resource "aws_key_pair" "wordpress" {
-  key_name = var.ec2_key_name
-
+  key_name   = var.ec2_key_name
   public_key = var.ec2_public_key
 }
 
@@ -47,7 +46,7 @@ resource "aws_instance" "wordpress" {
 }
 
 resource "null_resource" "bootstrap_ec2" {
-  # EC2 Must be configured externally as the EC2<>RDS security groups 
+  # EC2 Must be configured externally as the EC2<>RDS security groups
   # must be created before, for communication
 
   depends_on = [aws_security_group_rule.rds_ingress_mysql]
@@ -72,8 +71,6 @@ resource "null_resource" "bootstrap_ec2" {
     inline = [
       "chmod +x /tmp/bootstrap.sh",
       "/tmp/bootstrap.sh ${local.db_username} ${var.db_password} ${local.db_name} ${aws_db_instance.wordpress.address}",
-      "rm /tmp/bootstrap.sh",
     ]
   }
 }
-

@@ -12,4 +12,3 @@ output "rds_host" {
   description = "The RDS host instance."
   value       = aws_db_instance.wordpress.address
 }
-

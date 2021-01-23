@@ -151,4 +151,3 @@ resource "aws_security_group_rule" "rds_egress_mysql" {
   from_port         = 1024
   to_port           = 65535
 }
-
