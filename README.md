@@ -21,8 +21,6 @@ module "wordpress" {
 
   region = "${var.region}"
   jumpbox_ip = "142.142.142.142"
-  route53_record_name = "wordpressweb"
-  route53_zone_id = "XXXXXXXXXXXXXX"
 
   tags = "${var.tags}
 }

@@ -6,15 +6,6 @@ resource "aws_eip" "wordpress" {
   vpc      = false
 }
 
-resource "aws_route53_record" "wordpress" {
-  zone_id = var.route53_zone_id #EC2 public ip a record, used with EFS' dns
-
-  name    = var.route53_record_name
-  type    = "A"
-  ttl     = "60"
-  records = [aws_instance.wordpress.public_ip]
-}
-
 resource "aws_key_pair" "wordpress" {
   key_name   = "wordpress"
   public_key = var.ec2_public_key

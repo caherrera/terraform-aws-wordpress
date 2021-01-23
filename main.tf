@@ -89,18 +89,3 @@ module "asg" {
     },
   ]
 }
-
-# --------------------------------------------------------
-### Deploy elastic file system
-
-module "efs" {
-  name   = "efs"
-  source = "cloudposse/efs/aws"
-
-  availability_zones = [var.availability_zone]
-  aws_region         = var.region
-  security_groups    = [aws_security_group.wordpress_efs.id]
-  subnets            = [data.aws_subnet.wordpress.id]
-  vpc_id             = data.aws_subnet.wordpress.vpc_id
-  zone_id            = aws_route53_record.wordpress.zone_id
-}

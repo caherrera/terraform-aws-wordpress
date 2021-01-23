@@ -72,19 +72,6 @@ variable "ec2_instance_type" {
 }
 
 #--------------------------------------------------------
-### Route 53
-
-variable "route53_zone_id" {
-  description = "The ID of the hosted zone to contain the WordPress DNS records."
-  type        = string
-}
-
-variable "route53_record_name" {
-  description = "The name of the EC2 instance DNS record."
-  type        = string
-}
-
-#--------------------------------------------------------
 ### Database
 variable "rds_instance_type" {
   description = "(Required) The instance type of the RDS instance."
