@@ -74,7 +74,7 @@ module "asg" {
   vpc_zone_identifier       = [aws_instance.wordpress.subnet_id]
   health_check_type         = "EC2"
   min_size                  = 1
-  max_size                  = 1
+  max_size                  = 4
   desired_capacity          = 1
   wait_for_capacity_timeout = 0
 
