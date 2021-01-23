@@ -19,7 +19,6 @@ An example of using the module in existing code:
 module "wordpress" {
   source = "git::https://github.com/heldersepu/terraform-aws-wordpress.git?ref=master"
 
-  region = "${var.region}"
   jumpbox_ip = "142.142.142.142"
 
   tags = "${var.tags}

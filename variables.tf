@@ -32,13 +32,7 @@ variable "ec2_private_key" {
 }
 
 #--------------------------------------------------------
-### Optional
-
-variable "region" {
-  description = "The region the resources will be provisioned to."
-  type        = string
-  default     = "us-east-1"
-}
+### Optionals
 
 variable "availability_zone" {
   description = "Main availability zone for resources with no high availability."

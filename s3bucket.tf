@@ -69,15 +69,14 @@ resource "aws_s3_bucket" "wordpress" {
   acl           = "private"
   bucket        = local.s3_content
   force_destroy = true
-
-  region = var.region
-  tags   = var.tags
+  tags          = var.tags
 }
 
 resource "aws_s3_bucket" "elb_logs" {
   acl           = "private"
   bucket        = local.s3_logs
   force_destroy = true
+  tags          = var.tags
 
   policy = <<POLICY
 {
@@ -99,7 +98,4 @@ resource "aws_s3_bucket" "elb_logs" {
   ]
 }
 POLICY
-
-  region = var.region
-  tags   = var.tags
 }
