@@ -9,9 +9,8 @@
 
 ### Variables
 locals {
-  db_name = "bitnami_wordpress"
+  db_name     = "bitnami_wordpress"
   db_username = "bn_wordpress"
-
 }
 
 # --------------------------------------------------------
@@ -19,16 +18,16 @@ locals {
 ### Deploy ELB pointing to EC2
 resource "aws_elb" "wordpress" {
   name                        = "wordpress-elb"
-  instances                   = ["${aws_instance.wordpress.id}"]
+  instances                   = [aws_instance.wordpress.id]
   cross_zone_load_balancing   = true
   idle_timeout                = 300
   connection_draining         = true
   connection_draining_timeout = 300
-  security_groups = ["${aws_security_group.wordpress_elb.id}"]
-  subnets = ["${data.aws_subnet.wordpress.id}"]
+  security_groups             = [aws_security_group.wordpress_elb.id]
+  subnets                     = [data.aws_subnet.wordpress.id]
 
   access_logs {
-    bucket        = "${aws_s3_bucket.elb_logs.bucket}"
+    bucket        = aws_s3_bucket.elb_logs.bucket
     bucket_prefix = ""
     interval      = 60
   }
@@ -58,21 +57,21 @@ resource "aws_elb" "wordpress" {
     interval            = 30
   }
 
-tags = "${var.tags}"
+  tags = var.tags
 }
 
 # --------------------------------------------------------
 ### Deploy automatic scaling group for EC2 instance
 
 module "asg" {
-  name = "wordpress_asg"
+  name   = "wordpress_asg"
   source = "terraform-aws-modules/autoscaling/aws"
 
   asg_name                  = "wordpress"
-  lc_name = "wordpresslc"
-  instance_type = "t2.micro"
-  image_id      = "${lookup(var.ami_images, var.region)}"
-  vpc_zone_identifier       = ["${aws_instance.wordpress.subnet_id}"]
+  lc_name                   = "wordpresslc"
+  instance_type             = "t2.micro"
+  image_id                  = var.ami_images[var.region]
+  vpc_zone_identifier       = [aws_instance.wordpress.subnet_id]
   health_check_type         = "EC2"
   min_size                  = 1
   max_size                  = 1
@@ -80,7 +79,7 @@ module "asg" {
   wait_for_capacity_timeout = 0
 
   security_groups = [
-    "${aws_security_group.wordpress.id}",
+    aws_security_group.wordpress.id,
   ]
 
   root_block_device = [
@@ -97,12 +96,12 @@ module "asg" {
 module "efs" {
   name   = "efs"
   source = "cloudposse/efs/aws"
- 
-  availability_zones = ["${var.availability_zone}"]
-  aws_region         = "${var.region}"
-  security_groups    = ["${aws_security_group.wordpress_efs.id}"]
-  subnets            = ["${data.aws_subnet.wordpress.id}"]
-  vpc_id             = "${data.aws_subnet.wordpress.vpc_id}"
-  zone_id            = "${aws_route53_record.wordpress.zone_id}"
+
+  availability_zones = [var.availability_zone]
+  aws_region         = var.region
+  security_groups    = [aws_security_group.wordpress_efs.id]
+  subnets            = [data.aws_subnet.wordpress.id]
+  vpc_id             = data.aws_subnet.wordpress.vpc_id
+  zone_id            = aws_route53_record.wordpress.zone_id
 }
 

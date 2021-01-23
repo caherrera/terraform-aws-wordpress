@@ -1,6 +1,7 @@
 # Data source to get the Account ID of the AWS Elastic Load Balancing Service Account - 
 # in a given region for the purpose of whitelisting in S3 bucket policy.
-data "aws_elb_service_account" "main" {}
+data "aws_elb_service_account" "main" {
+}
 
 # --------------------------------------------------------
 
@@ -8,7 +9,7 @@ data "aws_elb_service_account" "main" {}
 # Attached to EC2 instances
 resource "aws_iam_instance_profile" "wordpress" {
   name = "WordPressS3Profile"
-  role = "${aws_iam_role.wordpress.name}"
+  role = aws_iam_role.wordpress.name
 }
 
 resource "aws_iam_role" "wordpress" {
@@ -31,12 +32,13 @@ resource "aws_iam_role" "wordpress" {
 }
 EOF
 
-  tags = "${var.tags}"
+
+  tags = var.tags
 }
 
 resource "aws_iam_role_policy" "wordpress" {
   name = "WordPressS3Policy"
-  role = "${aws_iam_role.wordpress.id}"
+  role = aws_iam_role.wordpress.id
 
   policy = <<EOF
 {
@@ -60,6 +62,7 @@ resource "aws_iam_role_policy" "wordpress" {
 	]
 }
 EOF
+
 }
 
 # --------------------------------------------------------
@@ -67,17 +70,17 @@ EOF
 
 resource "aws_s3_bucket" "wordpress" {
   acl           = "private"
-  bucket        = "${var.s3_bucket_name}"
+  bucket        = var.s3_bucket_name
   force_destroy = true
 
-  region = "${var.region}"
+  region = var.region
 
-  tags = "${var.tags}"
+  tags = var.tags
 }
 
 resource "aws_s3_bucket" "elb_logs" {
   acl           = "private"
-  bucket        = "${var.s3_elblogs_bucket_name}"
+  bucket        = var.s3_elblogs_bucket_name
   force_destroy = true
 
   policy = <<POLICY
@@ -101,7 +104,9 @@ resource "aws_s3_bucket" "elb_logs" {
 }
 POLICY
 
-  region = "${var.region}"
 
-  tags = "${var.tags}"
+  region = var.region
+
+  tags = var.tags
 }
+
