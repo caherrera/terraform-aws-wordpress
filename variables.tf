@@ -1,16 +1,5 @@
 #--------------------------------------------------------
-### General
-
-variable "region" {
-  description = "(Required) The region the resources will be provisioned to."
-  type        = string
-}
-
-variable "tags" {
-  description = "Specifies object tags key and value."
-  type        = map(string)
-  default     = {}
-}
+### Required
 
 variable "subnet_id" {
   description = "Specifies the subnet to provision resources to."
@@ -22,8 +11,34 @@ variable "subnet_2_id" {
   type        = string
 }
 
+variable "jumpbox_ip" {
+  description = "The jumpbox ip address used to administer the EC2 instance (For SSH communication)."
+  type        = string
+}
+
+variable "db_password" {
+  description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
+  type        = string
+}
+
+variable "ec2_public_key" {
+  description = "The public key to use for SSH authentication with the instances"
+  type        = string
+}
+
+variable "ec2_private_key" {
+  description = "The public key to use for SSH authentication with the instances"
+  type        = string
+}
+
 #--------------------------------------------------------
-### Route 53
+### Optional
+
+variable "region" {
+  description = "The region the resources will be provisioned to."
+  type        = string
+  default     = "us-east-1"
+}
 
 variable "availability_zone" {
   description = "Main availability zone for resources with no high availability."
@@ -41,28 +56,10 @@ variable "availability_zones" {
   ]
 }
 
-variable "jumpbox_ip" {
-  description = "(Required) The jumpbox ip address used to administer the EC2 instance (For SSH communication)."
-  type        = string
-}
-
 variable "elb_ssl_cert" {
   description = "If using SSL certificate on ELB, provide certificate ARN."
   type        = string
   default     = ""
-}
-
-#--------------------------------------------------------
-### Compute
-
-variable "ec2_public_key" {
-  description = "The public key to use for SSH authentication with the instances"
-  type        = string
-}
-
-variable "ec2_private_key" {
-  description = "The public key to use for SSH authentication with the instances"
-  type        = string
 }
 
 variable "ec2_instance_type" {
@@ -71,16 +68,14 @@ variable "ec2_instance_type" {
   default     = "t2.micro"
 }
 
-#--------------------------------------------------------
-### Database
 variable "rds_instance_type" {
   description = "(Required) The instance type of the RDS instance."
   type        = string
   default     = "db.t2.micro"
 }
 
-variable "db_password" {
-  description = "Password for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
-  type        = string
+variable "tags" {
+  description = "Specifies object tags key and value."
+  type        = map(string)
+  default     = {}
 }
-
