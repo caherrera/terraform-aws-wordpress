@@ -17,7 +17,7 @@ An option to use the default or existing VPC will be added in future version.
 An example of using the module in existing code:
 ```hcl
 module "wordpress" {
-  source = "git::https://github.com/heldersepu/terraform-aws-wordpress.git?ref=master"
+  source = "git::https://github.com/caherrera/terraform-aws-wordpress.git?ref=master"
 
   jumpbox_ip = "142.142.142.142"
 
@@ -27,7 +27,7 @@ module "wordpress" {
 
 ## Architecture
 The architecture is based of AWS' WordPress deployment best practices.
-![AWS Reference Architecture](https://github.com/heldersepu/terraform-aws-wordpress/blob/master/images/aws-refarch-wordpress.jpeg?raw=true)
+![AWS Reference Architecture](https://github.com/caherrera/terraform-aws-wordpress/blob/master/images/aws-refarch-wordpress.jpeg?raw=true)
 
 
 ## Information about EC2 VM deployment
