@@ -34,6 +34,24 @@ variable "ec2_private_key" {
 #--------------------------------------------------------
 ### Optionals
 
+variable "sitename" {
+  type    = string
+  default = "wordpress"
+}
+
+variable "db_username" {
+  description = "User for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
+  type        = string
+  default     = "bn_wordpress"
+}
+
+variable "db_name" {
+  description = "Name for the master DB user. Note that this may show up in logs, and it will be stored in the state file."
+  type        = string
+  default     = "bitnami_wordpress"
+}
+
+
 variable "availability_zone" {
   description = "Main availability zone for resources with no high availability."
   type        = string
@@ -72,4 +90,9 @@ variable "tags" {
   description = "Specifies object tags key and value."
   type        = map(string)
   default     = {}
+}
+
+variable "region" {
+  type    = string
+  default = "sa-east-1"
 }
